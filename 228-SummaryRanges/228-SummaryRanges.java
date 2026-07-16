@@ -1,4 +1,4 @@
-// Last updated: 16/07/2026, 19:25:13
+// Last updated: 16/07/2026, 19:25:17
 1class Solution {
 2    public List<String> summaryRanges(int[] nums) {
 3        List<String> result = new ArrayList<>();
