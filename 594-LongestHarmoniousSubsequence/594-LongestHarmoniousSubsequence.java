@@ -1,33 +1,25 @@
-// Last updated: 24/07/2026, 19:31:37
+// Last updated: 24/07/2026, 19:32:22
 1class Solution {
-2    public int findIntegers(int n) {
-3        int[] dp = new int[32];
-4        dp[0] = 1;
-5        dp[1] = 2;
-6
-7        // Build Fibonacci-like DP
-8        for (int i = 2; i < 32; i++) {
-9            dp[i] = dp[i - 1] + dp[i - 2];
-10        }
-11
-12        int ans = 0;
-13        int prevBit = 0;
+2    public boolean canPlaceFlowers(int[] flowerbed, int n) {
+3        int count = 0;
+4        int len = flowerbed.length;
+5
+6        for (int i = 0; i < len; i++) {
+7            if (flowerbed[i] == 0) {
+8                int left = (i == 0) ? 0 : flowerbed[i - 1];
+9                int right = (i == len - 1) ? 0 : flowerbed[i + 1];
+10
+11                if (left == 0 && right == 0) {
+12                    flowerbed[i] = 1;
+13                    count++;
 14
-15        // Traverse bits from MSB to LSB
-16        for (int i = 30; i >= 0; i--) {
-17            if ((n & (1 << i)) != 0) {
-18                ans += dp[i];
-19
-20                if (prevBit == 1) {
-21                    return ans;
-22                }
-23
-24                prevBit = 1;
-25            } else {
-26                prevBit = 0;
-27            }
-28        }
-29
-30        return ans + 1;
-31    }
-32}
+15                    if (count >= n) {
+16                        return true;
+17                    }
+18                }
+19            }
+20        }
+21
+22        return count >= n;
+23    }
+24}
