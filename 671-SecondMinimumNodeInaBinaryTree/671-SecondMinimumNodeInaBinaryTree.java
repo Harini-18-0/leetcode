@@ -1,18 +1,37 @@
-// Last updated: 25/07/2026, 21:13:18
+// Last updated: 25/07/2026, 21:14:23
 1class Solution {
-2    public int findLengthOfLCIS(int[] nums) {
-3        int max = 1;
-4        int count = 1;
+2    public String decodeString(String s) {
+3        Stack<Integer> countStack = new Stack<>();
+4        Stack<StringBuilder> stringStack = new Stack<>();
 5
-6        for (int i = 1; i < nums.length; i++) {
-7            if (nums[i] > nums[i - 1]) {
-8                count++;
-9            } else {
-10                count = 1;
-11            }
-12            max = Math.max(max, count);
-13        }
-14
-15        return max;
-16    }
-17}
+6        StringBuilder current = new StringBuilder();
+7        int num = 0;
+8
+9        for (char ch : s.toCharArray()) {
+10            if (Character.isDigit(ch)) {
+11                num = num * 10 + (ch - '0');
+12            } 
+13            else if (ch == '[') {
+14                countStack.push(num);
+15                stringStack.push(current);
+16                num = 0;
+17                current = new StringBuilder();
+18            } 
+19            else if (ch == ']') {
+20                int repeat = countStack.pop();
+21                StringBuilder prev = stringStack.pop();
+22
+23                for (int i = 0; i < repeat; i++) {
+24                    prev.append(current);
+25                }
+26
+27                current = prev;
+28            } 
+29            else {
+30                current.append(ch);
+31            }
+32        }
+33
+34        return current.toString();
+35    }
+36}
