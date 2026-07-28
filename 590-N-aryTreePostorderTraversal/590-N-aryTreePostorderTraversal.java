@@ -1,31 +1,26 @@
-// Last updated: 28/07/2026, 20:32:50
-1/**
-2 * Definition for a binary tree node.
-3 * public class TreeNode {
-4 *     int val;
-5 *     TreeNode left;
-6 *     TreeNode right;
-7 *     TreeNode() {}
-8 *     TreeNode(int val) { this.val = val; }
-9 *     TreeNode(int val, TreeNode left, TreeNode right) {
-10 *         this.val = val;
-11 *         this.left = left;
-12 *         this.right = right;
-13 *     }
-14 * }
-15 */
-16class Solution {
-17    public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
-18         if(root1 == null && root2 == null){
-19            return null;
-20        }
-21        if (root1 == null || root2 == null) {
-22            return root1 == null?root2:root1;
-23            
-24        }
-25        TreeNode res = new TreeNode(root1.val+root2.val);
-26        res.left = mergeTrees(root1.left,root2.left);
-27        res.right = mergeTrees(root1.right,root2.right);
-28        return res;
-29    }
-30}
+// Last updated: 28/07/2026, 20:33:35
+1
+2
+3class Solution {
+4    public int[] findErrorNums(int[] nums) {
+5        int dup = -1, missing = -1;
+6        
+7        for (int i = 1; i <= nums.length; i++) {
+8            int count = 0;
+9            for (int j = 0; j < nums.length; j++) {
+10                if (nums[j] == i) {
+11                    count++;
+12                }
+13            }
+14            if (count == 2) {
+15                dup = i;
+16            } else if (count == 0) {
+17                missing = i;
+18            }
+19        }
+20        
+21        return new int[] {dup, missing};
+22    }
+23}
+24
+25
