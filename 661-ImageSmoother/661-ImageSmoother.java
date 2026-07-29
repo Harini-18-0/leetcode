@@ -1,21 +1,17 @@
-// Last updated: 29/07/2026, 22:05:42
-1class MyHashSet {
-2
-3    private boolean[] storage;
-4
-5    public MyHashSet() {
-6        storage = new boolean[1_000_001]; // Initialize array for keys in range [0, 1000000]
-7    }
-8
-9    public void add(int key) {
-10        storage[key] = true; // Mark key as present
-11    }
-12
+// Last updated: 29/07/2026, 22:06:17
+1class MyHashMap {
+2    int[] data;
+3    public MyHashMap() {
+4        data = new int[1000001];
+5        Arrays.fill(data, -1);
+6    }
+7    public void put(int key, int val) {
+8        data[key] = val;
+9    }
+10    public int get(int key) {
+11        return data[key];
+12    }
 13    public void remove(int key) {
-14        storage[key] = false; // Mark key as absent
+14        data[key] = -1;
 15    }
-16
-17    public boolean contains(int key) {
-18        return storage[key]; // Check if key is present
-19    }
-20}
+16}
