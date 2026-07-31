@@ -1,65 +1,57 @@
-// Last updated: 31/07/2026, 09:15:28
+// Last updated: 31/07/2026, 09:16:02
 1class Solution {
-2    public int[] searchRange(int[] nums, int target) {
-3        // To return the elements directly from the private function we make 
-4        return new int[] {first(nums, target )  , last(nums , target)};
-5    }
-6
-7    // Function that would return the first occurence 
-8    private int first(int [] arr , int target){
-9        // Binary Search Basics eh 
-10        int left = 0 ; 
-11        int right = arr.length -1; 
-12        // To to store the mid and if there no value it will directly give -1 
-13        int ans = -1;
+2    int n = 3;
+3    int N = n * n;
+4    int[][] rows = new int[N][N + 1];
+5    int[][] columns = new int[N][N + 1];
+6    int[][] boxes = new int[N][N + 1];
+7    char[][] board;
+8    boolean sudokuSolved = false;
+9
+10    public boolean couldPlace(int d, int row, int col) {
+11        int idx = (row / n) * n + col / n;
+12        return rows[row][d] + columns[col][d] + boxes[idx][d] == 0;
+13    }
 14
-15        // Standard Binary Search Conditon 
-16        while(left<=right){
-17            int mid = left + (right - left) / 2;
-18
-19            
-20            // If the mid is target that does not guranetee that its the first occurence duh
-21            // But it does tell us that the first occurrence is at mid or left to mid 
-22            if(arr[mid] == target ){
-23
-24                // So we store the mid in ans in case if thats the first occurence 
-25                ans = mid;
-26                // Then we make the right to the mid -1
-27                right = mid - 1;
-28            }
-29            // If the target is greater than the ofc it would be to right side of the mid 
-30            else if (arr[mid]<target){
-31                left = mid + 1; 
-32            }
-33            // If the target is not in the mid not greater than mid it surely would be in left of mid or not present at all 
-34            else{
-35                right = mid -1 ; 
-36            }
-37        }
-38        // Return what ever that answer is 
-39        return ans ; 
-40
-41    }
-42
-43
-44    private int last (int [] arr , int target){
-45        int left = 0; 
-46        int right = arr.length-1;
-47        int ans = -1;
+15    public void placeNumber(int d, int row, int col) {
+16        int idx = (row / n) * n + col / n;
+17        rows[row][d]++;
+18        columns[col][d]++;
+19        boxes[idx][d]++;
+20        board[row][col] = (char)(d + '0');
+21    }
+22
+23    public void removeNumber(int d, int row, int col) {
+24        int idx = (row / n) * n + col / n;
+25        rows[row][d]--;
+26        columns[col][d]--;
+27        boxes[idx][d]--;
+28        board[row][col] = '.';
+29    }
+30
+31    public void placeNextNumbers(int row, int col) {
+32        if (row == N - 1 && col == N - 1) sudokuSolved = true;
+33        else if (col == N - 1) backtrack(row + 1, 0);
+34        else backtrack(row, col + 1);
+35    }
+36
+37    public void backtrack(int row, int col) {
+38        if (board[row][col] == '.') {
+39            for (int d = 1; d <= 9; d++) {
+40                if (couldPlace(d, row, col)) {
+41                    placeNumber(d, row, col);
+42                    placeNextNumbers(row, col);
+43                    if (!sudokuSolved) removeNumber(d, row, col);
+44                }
+45            }
+46        } else placeNextNumbers(row, col);
+47    }
 48
-49        while(left <= right ){
-50            int mid = left + (right - left )/2; 
-51
-52            if (arr[mid] == target ){
-53                ans = mid ;
-54                left = mid+1 ; 
-55            }
-56            else if (arr[mid]>target ){
-57                right = mid -1;
-58            }else{
-59                left = mid + 1; 
-60            }
-61        }
-62        return ans ;
-63    }
-64}
+49    public void solveSudoku(char[][] board) {
+50        this.board = board;
+51        for (int i = 0; i < N; i++)
+52            for (int j = 0; j < N; j++)
+53                if (board[i][j] != '.') placeNumber(Character.getNumericValue(board[i][j]), i, j);
+54        backtrack(0, 0);
+55    }
+56}
