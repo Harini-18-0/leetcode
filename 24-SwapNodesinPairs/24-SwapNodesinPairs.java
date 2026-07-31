@@ -1,38 +1,46 @@
-// Last updated: 31/07/2026, 09:13:15
-1/**
-2 * Definition for singly-linked list.
-3 * public class ListNode {
-4 *     int val;
-5 *     ListNode next;
-6 *     ListNode() {}
-7 *     ListNode(int val) { this.val = val; }
-8 *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-9 * }
-10 */
-11class Solution {
-12    public ListNode swapPairs(ListNode head) {
-13         ListNode dummy = new ListNode(0);
-14    dummy.next = head;
-15
-16    ListNode point = dummy;
-17
-18   
-19    while (point.next != null && point.next.next != null) {
-20
-21      ListNode swap1 = point.next;
-22      ListNode swap2 = point.next.next;
-23
-24    
-25      swap1.next = swap2.next;
-26      swap2.next = swap1;
-27
-28
-29    
-30      point.next = swap2;
-31      point = swap1;
-32    }
-33
-34   
-35    return dummy.next;
-36    }
-37}
+// Last updated: 31/07/2026, 09:13:41
+1class Solution {
+2    public void nextPermutation(int[] nums) {
+3        int ind1=-1;
+4        int ind2=-1;
+5        // step 1 find breaking point 
+6        for(int i=nums.length-2;i>=0;i--){
+7            if(nums[i]<nums[i+1]){
+8                ind1=i;
+9                break;
+10            }
+11        }
+12        // if there is no breaking  point 
+13        if(ind1==-1){
+14            reverse(nums,0);
+15        }
+16        
+17        else{
+18            // step 2 find next greater element and swap with ind2
+19            for(int i=nums.length-1;i>=0;i--){
+20                if(nums[i]>nums[ind1]){
+21                    ind2=i;
+22                    break;
+23                }
+24            }
+25
+26            swap(nums,ind1,ind2);
+27            // step 3 reverse the rest right half
+28            reverse(nums,ind1+1);
+29        }
+30    }
+31    void swap(int[] nums,int i,int j){
+32        int temp=nums[i];
+33        nums[i]=nums[j];
+34        nums[j]=temp;
+35    }
+36    void reverse(int[] nums,int start){
+37        int i=start;
+38        int j=nums.length-1;
+39        while(i<j){
+40            swap(nums,i,j);
+41            i++;
+42            j--;
+43        }
+44    }
+45}
