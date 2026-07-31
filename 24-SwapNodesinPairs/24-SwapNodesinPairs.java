@@ -1,46 +1,65 @@
-// Last updated: 31/07/2026, 09:13:41
+// Last updated: 31/07/2026, 09:15:28
 1class Solution {
-2    public void nextPermutation(int[] nums) {
-3        int ind1=-1;
-4        int ind2=-1;
-5        // step 1 find breaking point 
-6        for(int i=nums.length-2;i>=0;i--){
-7            if(nums[i]<nums[i+1]){
-8                ind1=i;
-9                break;
-10            }
-11        }
-12        // if there is no breaking  point 
-13        if(ind1==-1){
-14            reverse(nums,0);
-15        }
-16        
-17        else{
-18            // step 2 find next greater element and swap with ind2
-19            for(int i=nums.length-1;i>=0;i--){
-20                if(nums[i]>nums[ind1]){
-21                    ind2=i;
-22                    break;
-23                }
-24            }
-25
-26            swap(nums,ind1,ind2);
-27            // step 3 reverse the rest right half
-28            reverse(nums,ind1+1);
-29        }
-30    }
-31    void swap(int[] nums,int i,int j){
-32        int temp=nums[i];
-33        nums[i]=nums[j];
-34        nums[j]=temp;
-35    }
-36    void reverse(int[] nums,int start){
-37        int i=start;
-38        int j=nums.length-1;
-39        while(i<j){
-40            swap(nums,i,j);
-41            i++;
-42            j--;
-43        }
-44    }
-45}
+2    public int[] searchRange(int[] nums, int target) {
+3        // To return the elements directly from the private function we make 
+4        return new int[] {first(nums, target )  , last(nums , target)};
+5    }
+6
+7    // Function that would return the first occurence 
+8    private int first(int [] arr , int target){
+9        // Binary Search Basics eh 
+10        int left = 0 ; 
+11        int right = arr.length -1; 
+12        // To to store the mid and if there no value it will directly give -1 
+13        int ans = -1;
+14
+15        // Standard Binary Search Conditon 
+16        while(left<=right){
+17            int mid = left + (right - left) / 2;
+18
+19            
+20            // If the mid is target that does not guranetee that its the first occurence duh
+21            // But it does tell us that the first occurrence is at mid or left to mid 
+22            if(arr[mid] == target ){
+23
+24                // So we store the mid in ans in case if thats the first occurence 
+25                ans = mid;
+26                // Then we make the right to the mid -1
+27                right = mid - 1;
+28            }
+29            // If the target is greater than the ofc it would be to right side of the mid 
+30            else if (arr[mid]<target){
+31                left = mid + 1; 
+32            }
+33            // If the target is not in the mid not greater than mid it surely would be in left of mid or not present at all 
+34            else{
+35                right = mid -1 ; 
+36            }
+37        }
+38        // Return what ever that answer is 
+39        return ans ; 
+40
+41    }
+42
+43
+44    private int last (int [] arr , int target){
+45        int left = 0; 
+46        int right = arr.length-1;
+47        int ans = -1;
+48
+49        while(left <= right ){
+50            int mid = left + (right - left )/2; 
+51
+52            if (arr[mid] == target ){
+53                ans = mid ;
+54                left = mid+1 ; 
+55            }
+56            else if (arr[mid]>target ){
+57                right = mid -1;
+58            }else{
+59                left = mid + 1; 
+60            }
+61        }
+62        return ans ;
+63    }
+64}
