@@ -1,29 +1,14 @@
-// Last updated: 03/08/2026, 21:21:31
+// Last updated: 03/08/2026, 21:22:02
 1class Solution {
-2    public List<List<Integer>> permute(int[] nums) {
-3        List<List<Integer>> res = new ArrayList<>();
-4        permuteHelper(nums, 0, res);
-5        return res;
-6    }
-7
-8    private void permuteHelper(int[] nums, int i, List<List<Integer>> res) {
-9        if (i == nums.length) {
-10            List<Integer> permutation = new ArrayList<>();
-11            for (int num : nums) permutation.add(num);
-12            res.add(permutation);
-13            return;
-14        }
-15
-16        for (int j = i; j < nums.length; j++) {
-17            swap(nums, i, j);
-18            permuteHelper(nums, i + 1, res);
-19            swap(nums, i, j); // backtrack
-20        }
-21    }
-22
-23    private void swap(int[] nums, int i, int j) {
-24        int tmp = nums[i];
-25        nums[i] = nums[j];
-26        nums[j] = tmp;
-27    }
-28}
+2    public void rotate(int[][] mat) {
+3        int n = mat.length, k = n - 1;
+4        for (int i = 0; i < n >> 1; i++)
+5            for (int j = i; j < k - i; j++) {
+6                int t = mat[i][j];
+7                mat[i][j] = mat[k - j][i];
+8                mat[k - j][i] = mat[k - i][k - j];
+9                mat[k - i][k - j] = mat[j][k - i];
+10                mat[j][k - i] = t;
+11            }
+12    }
+13}
