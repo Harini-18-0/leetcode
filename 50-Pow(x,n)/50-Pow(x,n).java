@@ -1,24 +1,25 @@
-// Last updated: 04/08/2026, 09:01:14
+// Last updated: 04/08/2026, 09:01:51
 1class Solution {
-2    public double myPow(double x, int n) {
-3        
-4        if(n < 0){
-5            n = -n;
-6            x = 1 / x;
-7        }
-8        
-9        double pow = 1;
-10        
-11        while(n != 0){
-12            if((n & 1) != 0){
-13                pow *= x;
-14            } 
-15                
-16            x *= x;
-17            n >>>= 1;
-18            
+2    public int[][] insert(int[][] intervals, int[] newInterval) {
+3       List<int[]> intervalList = new ArrayList<>(Arrays.asList(intervals));
+4        intervalList.add(newInterval);
+5        Collections.sort(intervalList, (a, b) -> Integer.compare(a[0], b[0]));
+6
+7        List<int[]> res = new ArrayList<>();
+8        int[] current = intervalList.get(0);
+9
+10        for (int i = 1; i < intervalList.size(); i++) {
+11            int[] interval = intervalList.get(i);
+12            
+13            if (current[1] >= interval[0]) {
+14                current[1] = Math.max(current[1], interval[1]);
+15            } else {
+16                res.add(current);
+17                current = interval;
+18            }
 19        }
-20        
-21        return pow;
-22    }
-23}
+20
+21        res.add(current);
+22        return res.toArray(new int[res.size()][]);
+23    }
+24}
